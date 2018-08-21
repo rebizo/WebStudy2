@@ -17,7 +17,7 @@ public class UserProfile {
         this.email = login;
     }
 
-    public String getLogin() {
+    String getLogin() {
         return login;
     }
 
