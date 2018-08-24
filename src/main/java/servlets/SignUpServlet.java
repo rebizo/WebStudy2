@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class SessionsServlet extends HttpServlet {
+public class SignUpServlet extends HttpServlet {
     private final AccountService accountService;
 
-    public SessionsServlet(AccountService accountService) {
+    public SignUpServlet(AccountService accountService) {
         this.accountService = accountService;
     }
 
@@ -37,16 +37,16 @@ public class SessionsServlet extends HttpServlet {
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
         String login = request.getParameter("login");
-        String pass = request.getParameter("pass");
+        String password = request.getParameter("password");
 
-        if (login == null || pass == null) {
+        if (login == null || password == null) {
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
 
         UserProfile profile = accountService.getUserByLogin(login);
-        if (profile == null || !profile.getPass().equals(pass)) {
+        if (profile == null || !profile.getPass().equals(password)) {
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
@@ -74,6 +74,5 @@ public class SessionsServlet extends HttpServlet {
             response.getWriter().println("Goodbye!");
             response.setStatus(HttpServletResponse.SC_OK);
         }
-
     }
 }

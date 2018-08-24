@@ -8,11 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class UsersServlet extends HttpServlet {
+public class SignInServlet extends HttpServlet {
     @SuppressWarnings({"FieldCanBeLocal", "UnusedDeclaration"}) //todo: remove after module 2 home work
     private final AccountService accountService;
 
-    public UsersServlet(AccountService accountService) {
+    public SignInServlet(AccountService accountService) {
         this.accountService = accountService;
     }
 
@@ -22,7 +22,7 @@ public class UsersServlet extends HttpServlet {
         //todo: module 2 home work
     }
 
-    //sign up
+    //sign up @pass@
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
         //todo: module 2 home work
