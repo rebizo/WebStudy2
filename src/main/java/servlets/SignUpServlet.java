@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class SignUpServlet extends HttpServlet {
+
     private final AccountService accountService;
 
     public SignUpServlet(AccountService accountService) {
@@ -56,7 +57,7 @@ public class SignUpServlet extends HttpServlet {
         Gson gson = new Gson();
         String json = gson.toJson(profile);
         response.setContentType("text/html;charset=utf-8");
-/*      response.getWriter().println("Authorized: " + login);*/
+        response.getWriter().println("Authorized: " + login); // ЗАДАНИЕ
         response.getWriter().println(json);
         response.setStatus(HttpServletResponse.SC_OK);
     }

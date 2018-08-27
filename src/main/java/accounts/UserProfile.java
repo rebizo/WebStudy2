@@ -6,9 +6,9 @@ public class UserProfile {
     private final String pass;
     private final String email;
 
-    public UserProfile(String login, String password, String email) {
+    public UserProfile(String login, String pass, String email) {
         this.login = login;
-        this.pass = password;
+        this.pass = pass;
         this.email = email;
     }
 
@@ -26,7 +26,7 @@ public class UserProfile {
         return pass;
     }
 
-   /* public String getEmail() {
+    public String getEmail() {
         return email;
-    }*/
+    }
 }
