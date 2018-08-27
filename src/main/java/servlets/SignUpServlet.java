@@ -3,6 +3,8 @@ package servlets;
 import accounts.AccountService;
 import accounts.UserProfile;
 import com.google.gson.Gson;
+import main.Main;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +39,9 @@ public class SignUpServlet extends HttpServlet {
     //sign in
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
+
+        //UserProfile profile = Main.profiles.get(request.getSession().getId());
+
         String login = request.getParameter("login");
         String pass = request.getParameter("password");
 
@@ -50,6 +55,7 @@ public class SignUpServlet extends HttpServlet {
         if (profile == null || !profile.getPass().equals(pass)) {
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().println("Unauthorized" ); // ЗАДАНИЕ ???
             return;
         }
 
@@ -57,10 +63,10 @@ public class SignUpServlet extends HttpServlet {
         Gson gson = new Gson();
         String json = gson.toJson(profile);
         response.setContentType("text/html;charset=utf-8");
-        response.getWriter().println("Authorized: " + login); // ЗАДАНИЕ
+        response.getWriter().println("Authorized: " + login); // ЗАДАНИЕ .... profile.login
         response.getWriter().println(json);
         response.setStatus(HttpServletResponse.SC_OK);
-    }
+    }/**/
 
     //sign out
     public void doDelete(HttpServletRequest request,
@@ -75,6 +81,7 @@ public class SignUpServlet extends HttpServlet {
             response.setContentType("text/html;charset=utf-8");
             response.getWriter().println("Goodbye!");
             response.setStatus(HttpServletResponse.SC_OK);
+            response.getWriter().print(profile.getPass());
         }
     }
 }

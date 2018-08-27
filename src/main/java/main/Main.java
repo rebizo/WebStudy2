@@ -8,11 +8,20 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import servlets.SignUpServlet;
 import servlets.SignInServlet;
+import servlets.SignUpServlet;
+import sun.java2d.cmm.Profile;
+
+import java.util.HashMap;
+//import servlets.SignInServlet;
 
 public class Main {
+
+    public static HashMap<String, UserProfile> profiles;
+
     public static void main(String[] args) throws Exception {
+
+        profiles = new HashMap<>();
 
         AccountService accountService = new AccountService();
 
