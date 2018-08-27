@@ -12,8 +12,8 @@ buildscript {
 plugins {
     //id "groovy"
     id 'java'
-    //id "war"
     id "idea"
+    //id "war"
     //id "org.akhikhl.gretty" version "2.0.0"
     //id 'org.gretty' version '2.2.0'
     //id: 'java-library-distribution'
@@ -105,7 +105,7 @@ dependencies {
     compile group: 'org.eclipse.jetty', name: 'jetty-webapp', version: '9.4.12.RC2'
     compile group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.12.RC2'
 
-    // compile group: 'freemarker', name: 'freemarker', version: '2.3.9'
+    compile group: 'freemarker', name: 'freemarker', version: '2.3.9'
 
 /*   compile group: 'net.nisgits.gradle', name: 'gradle-executable-jar-plugin', version: '1.7.0'//!!!!!!!!!!!!
      compile "joda-time:joda-time:2.2"*/

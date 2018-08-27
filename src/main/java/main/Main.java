@@ -20,11 +20,11 @@ public class Main {
         accountService.addNewUser(new UserProfile("test"));
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        context.addServlet(new ServletHolder(new SignInServlet(accountService)),"/signup");//???/api/v1/users
-        context.addServlet(new ServletHolder(new SignUpServlet(accountService)),"/signin");///api/v1/sessions
+        context.addServlet(new ServletHolder(new SignInServlet(accountService)),"/signup");//???/signup
+        context.addServlet(new ServletHolder(new SignUpServlet(accountService)),"/signin");///signin
 
         ResourceHandler resource_handler = new ResourceHandler();
-        resource_handler.setResourceBase("public_html");
+        resource_handler.setResourceBase("src/public_html");
 
         HandlerList handlers = new HandlerList();
         handlers.setHandlers(new Handler[]{resource_handler, context});

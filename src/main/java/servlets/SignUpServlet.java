@@ -37,16 +37,16 @@ public class SignUpServlet extends HttpServlet {
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
         String login = request.getParameter("login");
-        String password = request.getParameter("password");
+        String pass = request.getParameter("password");
 
-        if (login == null || password == null) {
+        if (login == null || pass == null) {
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
 
         UserProfile profile = accountService.getUserByLogin(login);
-        if (profile == null || !profile.getPass().equals(password)) {
+        if (profile == null || !profile.getPass().equals(pass)) {
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
@@ -56,6 +56,7 @@ public class SignUpServlet extends HttpServlet {
         Gson gson = new Gson();
         String json = gson.toJson(profile);
         response.setContentType("text/html;charset=utf-8");
+/*      response.getWriter().println("Authorized: " + login);*/
         response.getWriter().println(json);
         response.setStatus(HttpServletResponse.SC_OK);
     }
