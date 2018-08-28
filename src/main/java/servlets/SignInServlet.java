@@ -31,11 +31,11 @@ public class SignInServlet extends HttpServlet {
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
 
-        String sessionId = request.getSession().getId();
-        //UserProfile profile = Main.profiles.get(request.getSession().getId());
-        UserProfile profile = accountService.getUserBySessionId(sessionId);
-        //System.out.println("get " + request.getSession().getId());
-        System.out.println("get " + sessionId);
+        //String sessionId = request.getSession().getId();
+        UserProfile profile = Main.profiles.get(request.getSession().getId());
+        //UserProfile profile = accountService.getUserBySessionId(sessionId);
+        System.out.println("get " + request.getSession().getId());
+        //System.out.println("get " + sessionId);
 
         //String login = request.getParameter("login");
         //String pass = request.getParameter("password");

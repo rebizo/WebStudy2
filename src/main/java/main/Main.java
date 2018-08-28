@@ -18,6 +18,7 @@ import java.util.HashMap;
 public class Main {
 
     public static HashMap<String, UserProfile> profiles;
+    //public static HashMap<String,  ArrayList<UserProfile>> profiles;
     //public static ArrayList<Object> profiles;
 
     public static void main(String[] args) throws Exception {

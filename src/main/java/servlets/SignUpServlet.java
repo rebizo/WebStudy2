@@ -23,10 +23,13 @@ public class SignUpServlet extends HttpServlet {
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
 
+/*        String login = request.getParameter("login");
+        String pass = request.getParameter("password");*/
+
         String login = request.getParameter("login");
         String pass = request.getParameter("password");
 
-        if (login == null || pass == null) {
+        if (login.isEmpty() || pass.isEmpty()) {
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
@@ -34,12 +37,10 @@ public class SignUpServlet extends HttpServlet {
         }
 
         //UserProfile profile = accountService.getUserByLogin(login);
-
-
         String sessionId = request.getSession().getId();
         // Проверяем есть ли такой пользователь
-        //UserProfile profile = Main.profiles.get(request.getSession().getId());//////////////
-        UserProfile profile = accountService.getUserBySessionId(sessionId);
+        UserProfile profile = Main.profiles.get(request.getSession().getId());//////////////
+        //UserProfile profile = accountService.getUserBySessionId(sessionId);
         System.out.println("check " + request.getSession().getId());////////////////
         if (profile != null/* || profile.getPass().equals(pass)*/) { //
             response.setContentType("text/html;charset=utf-8");
@@ -53,7 +54,7 @@ public class SignUpServlet extends HttpServlet {
             System.out.println("put " + request.getSession().getId());
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_OK);
-            //response.getWriter().println("Authorized: " + login); // ЗАДАНИЕ profile.login
+            response.getWriter().println("Authorized: " + login); // ЗАДАНИЕ profile.login
             //response.getWriter().print("Done");
         }
 
