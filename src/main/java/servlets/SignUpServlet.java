@@ -11,6 +11,8 @@ import java.io.IOException;
 
 public class SignUpServlet extends HttpServlet {
 
+    private static final long serialVersionUID = 4904134333591464003L;
+
     private final AccountService accountService;
 
     public SignUpServlet(AccountService accountService) {
@@ -27,16 +29,19 @@ public class SignUpServlet extends HttpServlet {
         if (login == null || pass == null) {
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            //return;
-            response.getWriter().print("fill fields");
+            return;
+            //response.getWriter().print("fill fields");
         }
 
         //UserProfile profile = accountService.getUserByLogin(login);
 
+
+        String sessionId = request.getSession().getId();
         // Проверяем есть ли такой пользователь
-        UserProfile profile = Main.profiles.get(request.getSession().getId());//////////////
+        //UserProfile profile = Main.profiles.get(request.getSession().getId());//////////////
+        UserProfile profile = accountService.getUserBySessionId(sessionId);
         System.out.println("check " + request.getSession().getId());////////////////
-        if (profile != null /*|| !profile.getPass().equals(pass)*/) { //
+        if (profile != null/* || profile.getPass().equals(pass)*/) { //
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().print("Already registered");
@@ -49,7 +54,7 @@ public class SignUpServlet extends HttpServlet {
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_OK);
             //response.getWriter().println("Authorized: " + login); // ЗАДАНИЕ profile.login
-            response.getWriter().print("Done");
+            //response.getWriter().print("Done");
         }
 
  /*     accountService.addSession(request.getSession().getId(), profile);

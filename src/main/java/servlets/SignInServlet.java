@@ -8,9 +8,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.Serializable;
 
 public class SignInServlet extends HttpServlet {
 
+    private static final long serialVersionUID = 4817984263766719476L;
 
     @SuppressWarnings({"FieldCanBeLocal", "UnusedDeclaration"}) //todo: remove after module 2 home work
     private final AccountService accountService;
@@ -29,14 +31,17 @@ public class SignInServlet extends HttpServlet {
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
 
-        UserProfile profile = Main.profiles.get(request.getSession().getId());
-        System.out.println("get " + request.getSession().getId());
+        String sessionId = request.getSession().getId();
+        //UserProfile profile = Main.profiles.get(request.getSession().getId());
+        UserProfile profile = accountService.getUserBySessionId(sessionId);
+        //System.out.println("get " + request.getSession().getId());
+        System.out.println("get " + sessionId);
 
         //String login = request.getParameter("login");
-        String pass = request.getParameter("password");
+        //String pass = request.getParameter("password");
 
         // Проверяем на наличие в мапе профиля, если его нет-не авторизуем
-        if (profile == null || !profile.getPass().equals(pass)) {
+        if (profile == null /*|| !profile.getPass().equals(pass)*/) {
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().print("Unauthorized");
