@@ -10,21 +10,28 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import servlets.SignInServlet;
 import servlets.SignUpServlet;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 //import servlets.SignInServlet;
 
 public class Main {
 
     public static HashMap<String, UserProfile> profiles;
+    //public static ArrayList<Object> profiles;
 
     public static void main(String[] args) throws Exception {
 
         profiles = new HashMap<>();
+        //profiles = new ArrayList<Object>();
 
         AccountService accountService = new AccountService();
 
+        // Добавляем пользователей (не работает-нужнодобавлять в мапу)
         accountService.addNewUser(new UserProfile("admin"));
         accountService.addNewUser(new UserProfile("test"));
+
+        // profiles.add(accountService);
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.addServlet(new ServletHolder(new SignInServlet(accountService)),"/signin"); //???/signup  /api/v1/users
@@ -34,7 +41,7 @@ public class Main {
         resource_handler.setResourceBase("src/public_html");
 
         HandlerList handlers = new HandlerList();
-        handlers.setHandlers(new Handler[]{resource_handler, context});
+        handlers.setHandlers(new Handler[] {resource_handler, context});
 
         Server server = new Server(8080);
         server.setHandler(handlers);
