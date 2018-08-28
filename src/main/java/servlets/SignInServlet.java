@@ -2,16 +2,12 @@ package servlets;
 
 import accounts.AccountService;
 import accounts.UserProfile;
-import com.google.gson.Gson;
-
+import main.Main;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
-import static javax.servlet.http.HttpServletResponse.*;
-import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 public class SignInServlet extends HttpServlet {
 
@@ -23,47 +19,37 @@ public class SignInServlet extends HttpServlet {
         this.accountService = accountService;
     }
 
-    //get public user profile
-/*    public void doGet(HttpServletRequest request,
-                      HttpServletResponse response) throws ServletException, IOException {
+    //  get public user profile
+    /*  public void doGet(HttpServletRequest request,
+        HttpServletResponse response) throws ServletException, IOException {
         //todo: module 2 home work
-    }*/
+    } */
 
     //sign up @pass@
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
-        String login = request.getParameter("login");
+
+        UserProfile profile = Main.profiles.get(request.getSession().getId());
+        System.out.println("get " + request.getSession().getId());
+
+        //String login = request.getParameter("login");
         String pass = request.getParameter("password");
 
-        int getet = response.getStatus();
-        if (getet == HttpServletResponse.SC_OK) {
-            response.setContentType("text/html;charset=utf-8");
-        }
-
-        if (login == null || pass == null) {
-            response.setContentType("text/html;charset=utf-8");
-            response.setStatus(SC_BAD_REQUEST);
-            return;
-        }
-
-        UserProfile profile = accountService.getUserByLogin(login);
+        // Проверяем на наличие в мапе профиля, если его нет-не авторизуем
         if (profile == null || !profile.getPass().equals(pass)) {
             response.setContentType("text/html;charset=utf-8");
-            response.setStatus(SC_UNAUTHORIZED);
-            return;
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().print("Unauthorized");
+        }
+        // Если профиль есть-выводим "все ок"
+        else {
+            response.setContentType("text/html;charset=utf-8");
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.getWriter().print("Authorized: " + profile.login);
         }
 
-        accountService.addSession(request.getSession().getId(), profile);
-        Gson gson = new Gson();
-        String json = gson.toJson(profile);
-        response.setContentType("text/html;charset=utf-8");
-        response.getWriter().println("Authorized: " + login); // ЗАДАНИЕ
-        response.getWriter().println(json);
-        response.setStatus(SC_OK);
-    }
-
-    //change profile
-    public void doPut(HttpServletRequest request,
+        //change profile
+/*    public void doPut(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         //todo: module 2 home work
     }
@@ -72,5 +58,6 @@ public class SignInServlet extends HttpServlet {
     public void doDelete(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
         //todo: module 2 home work
+    }*/
     }
 }
