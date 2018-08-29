@@ -3,12 +3,12 @@ package servlets;
 import accounts.AccountService;
 import accounts.UserProfile;
 import main.Main;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.Serializable;
 
 public class SignInServlet extends HttpServlet {
 
@@ -32,29 +32,43 @@ public class SignInServlet extends HttpServlet {
                        HttpServletResponse response) throws ServletException, IOException {
 
         //String sessionId = request.getSession().getId();
-        UserProfile profile = Main.profiles.get(request.getSession().getId());
         //UserProfile profile = accountService.getUserBySessionId(sessionId);
-        System.out.println("get " + request.getSession().getId());
-        //System.out.println("get " + sessionId);
 
+        if(request.getSession(false)==null) {
+            UserProfile profile = Main.profiles.get(request.getParameter("login"));
+
+            if (profile != null) {
+                if(profile.getPass().equals(request.getParameter("password"))) {
+                    request.getSession();
+                    response.setContentType("text/html;charset=utf-8");
+                    response.setStatus(HttpServletResponse.SC_OK);
+                    response.getWriter().print("Authorized: " + profile.login);
+                } else {
+                    response.setContentType("text/html;charset=utf-8");
+                    response.setStatus(HttpServletResponse.SC_OK);
+                    response.getWriter().print("Password incorrect");
+                }
+            } else {
+                response.setContentType("text/html;charset=utf-8");
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.getWriter().print("User not found");
+            }
+        } else {
+            response.setContentType("text/html;charset=utf-8");
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.getWriter().print("Session already exist");
+        }
+
+
+
+        //System.out.println("get " + sessionId);
         //String login = request.getParameter("login");
         //String pass = request.getParameter("password");
 
         // Проверяем на наличие в мапе профиля, если его нет-не авторизуем
-        if (profile == null /*|| !profile.getPass().equals(pass)*/) {
-            response.setContentType("text/html;charset=utf-8");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().print("Unauthorized");
-        }
-        // Если профиль есть-выводим "все ок"
-        else {
-            response.setContentType("text/html;charset=utf-8");
-            response.setStatus(HttpServletResponse.SC_OK);
-            response.getWriter().print("Authorized: " + profile.login);
-        }
 
         //change profile
-/*    public void doPut(HttpServletRequest request,
+/*   public void doPut(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         //todo: module 2 home work
     }

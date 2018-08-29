@@ -37,12 +37,10 @@ public class SignUpServlet extends HttpServlet {
         }
 
         //UserProfile profile = accountService.getUserByLogin(login);
-        String sessionId = request.getSession().getId();
         // Проверяем есть ли такой пользователь
-        UserProfile profile = Main.profiles.get(request.getSession().getId());//////////////
+        UserProfile profile = Main.profiles.get(login);//////////////
         //UserProfile profile = accountService.getUserBySessionId(sessionId);
-        System.out.println("check " + request.getSession().getId());////////////////
-        if (profile != null/* || profile.getPass().equals(pass)*/) { //
+        if (profile != null /* || profile.getPass().equals(pass)*/) { //
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().print("Already registered");
@@ -50,8 +48,7 @@ public class SignUpServlet extends HttpServlet {
         // Если такого пользователя нет, добавляем его
         else {
             UserProfile p = new UserProfile(login, pass);
-            Main.profiles.put(request.getSession(true).getId(), p);
-            System.out.println("put " + request.getSession().getId());
+            Main.profiles.put(login, p);
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_OK);
             response.getWriter().println("Authorized: " + login); // ЗАДАНИЕ profile.login
@@ -65,6 +62,10 @@ public class SignUpServlet extends HttpServlet {
         response.getWriter().println(json);
         response.setStatus(HttpServletResponse.SC_OK);*/
     } /**/
+
+    public AccountService getAccountService() {
+        return accountService;
+    }
 
     //sign out
 /*    public void doDelete(HttpServletRequest request,
